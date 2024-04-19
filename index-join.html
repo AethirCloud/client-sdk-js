@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,mininmum-scale=1.0, maximum-scale=1.0, user-scalable=0 viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta http-equiv="x-rim-auto-match" content="none" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>sdk</title>
+  <style>
+    .stop{
+      width: 50px;
+      height: 30px;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="mount-point"></div>
+  <button class="stop">stop</button>
+</body>
+</html>
+<script src="./CloudGamingSDK.js"></script>
+<script>
+CloudGamingSDK.init({
+  requestUrl: '***', 
+  tid: 10007,// tenant id
+  mount: 'mount-point',// the video container element id of html page
+  fullVideoToScreen:true, 
+  autoRotateContainer:true, // the screen auto flag,default value is true
+  showLoading:true,
+  token:'***.eyJhayI6IjJpZGo4YTE5bzFhanJhZnQ2czVpIiwiZXhwIjo0ODE5ODkwNDAxOTYyfQ.-_ccYVzbMshRdLIli-dCJn770ljfFvgVkbBXnqHerdQ',
+  onInitSuccess(){
+  CloudGamingSDK.join()
+    
+  },
+  onWebrtcStatusChange(res){
+    console.log(res);
+  },
+  onConnectSuccess(res){
+    document.querySelector('.stop').onclick = function(params) {
+      CloudGamingSDK.stop().then(res=>{
+        console.log(res);
+      }).catch(err=>{
+        console.log('stop error');
+      })
+    }
+  },
+  onDisconnect(res){
+    alert('Disconnect')
+  }
+})
+
+</script>

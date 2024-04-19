@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0,mininmum-scale=1.0, maximum-scale=1.0, user-scalable=0 viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-touch-fullscreen" content="YES" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta http-equiv="x-rim-auto-match" content="none" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>sdk</title>
+  <style>
+    .btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mount-point"></div>
+  <div class="btn">
+    <button class="stop">stop</button>
+    <button class="gameRestart">gameRestart</button>
+  </div>
+</body>
+
+</html>
+<script src="./CloudGamingSDK.js"></script>
+<script>
+  CloudGamingSDK.init({
+    requestUrl: '****', //reqUrl
+    uid: 'test',
+    tid: 10059,
+    token: 'xxxxxxx',
+    mount: 'mount-point',
+    autoRotateContainer: true, // Automatic rotation
+    showLoading: true,
+    keepLastFrame: false,//Hold the last frame
+    onInitSuccess(res) {
+
+      CloudGamingSDK.startCloudGame({
+        videoQualityLevel: '',//Encoding resolution 720p30 1080p60
+        startAppParam: '',//Game startup parameters
+        appId: 10007,
+        regionCode:'NL',
+        noInputTimeoutS: 300 // User No operation timeout period (s)
+      }).then(res => {
+        console.log('success', res);
+        CloudGamingSDK.join(res)
+      })
+    },
+    //Connection success callback
+    onConnectSuccess(res) {
+      document.querySelector('.button').onclick = function (params) {
+        CloudGamingSDK.stop().then(res => { })
+      }
+    },
+    //Connection disconnection callback
+    onDisconnect: (res) => {
+      console.log('onDisconnect', res);
+    },
+    // Video streaming real-time information
+    onNetworkChange: (res) => {
+      console.log('onNetworkChange', res);
+    },
+    // webrtc status
+    onWebrtcStatusChange: (res) => {
+      console.log('onWebrtcStatusChange', res);
+    }
+  })
+
+</script>
